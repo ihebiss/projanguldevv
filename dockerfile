@@ -1,14 +1,22 @@
-FROM node:14.1-alpine AS builder
+# Fetch node image 
+FROM node:20.11.0-alpine
 
-WORKDIR /opt/web
-COPY package.json package-lock.json ./
+# Set the working directory (Inside the container)
+WORKDIR /app
+
+# Copy the package.json and package-lock.json to the container
+COPY package*.json ./
+
+# Build angular application 
 RUN npm install
 
-ENV PATH="./node_modules/.bin:$PATH"
+# Copy the source code to the container
+COPY . .
 
-COPY . ./
-RUN ng build --prod
+RUN npm run build 
 
-FROM nginx:1.17-alpine
-COPY nginx.config /etc/nginx/conf.d/default.conf
-COPY --from=builder /opt/web/dist/notes /usr/share/nginx/html
+# Expose the port 4200
+EXPOSE 4200
+
+# Start the application
+CMD ["npm", "start"]
