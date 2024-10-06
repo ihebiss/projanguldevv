@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ProductService {
-  private apiUrl = 'http://localhost:8082'; 
+  private apiUrl = 'http://ihebtestpro1_springboot_1:8089'; 
 
   constructor(private http: HttpClient) { }
 
